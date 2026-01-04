@@ -1,16 +1,12 @@
-// server.js
 import express from "express";
-import fetch from "node-fetch";
 
 const app = express();
 app.use(express.json());
 
-// Página de teste
 app.get("/", (req, res) => {
   res.send("servidor Pro-max");
 });
 
-// Rota para disparar o build do APK
 app.post("/build", async (req, res) => {
   try {
     const response = await fetch(
@@ -31,10 +27,7 @@ app.post("/build", async (req, res) => {
 
     if (!response.ok) {
       const text = await response.text();
-      return res.status(500).json({
-        success: false,
-        error: text
-      });
+      return res.status(500).json({ success: false, error: text });
     }
 
     res.json({
@@ -43,14 +36,10 @@ app.post("/build", async (req, res) => {
       actions_url: "https://github.com/Aurelhopedro/Apk-crear/actions"
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
-// Porta do Render
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor Pro-max rodando na porta ${PORT}`);
